@@ -9,7 +9,7 @@ var compile = function (expr) {
     (function endTime(time, expr, ref) {
         // your code here
         (function(expr) {
-            if (expr.tag === 'note') {
+            if (expr.tag === 'note' || expr.tag === 'rest') {
                 expr.start = time || ref;
                 result.push(expr);
                 
@@ -35,8 +35,11 @@ var melody_mus =
     { tag: 'seq',
       left: 
             { tag: 'seq',
-              left: { tag: 'note', pitch: 'a4', dur: 250 },
-              right: { tag: 'note', pitch: 'b4', dur: 250 } 
+              left: { tag: 'par',
+                      left: { tag: 'rest', dur: 200 },
+                      right: { tag: 'note', pitch: 'b4', dur: 250 } 
+                    },
+              right: { tag: 'rest', dur: 250 } 
             },
       right:
             { tag: 'seq',
