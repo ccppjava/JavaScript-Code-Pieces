@@ -1,6 +1,14 @@
 // http://nathansuniversity.com/music.html
 // this file supposed to work with node.js 
 //
+
+var convertPitch = function(pitch) {
+    var dict = {c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11};
+    if (pitch.length === 2 && dict[pitch[0]] !== undefined) {
+        return 12 * (1 + parseInt(pitch[1])) + dict[pitch[0]]; 
+    }
+};
+
 // following compile function is from last lesson
 var compile = function (expr) {
     
@@ -11,6 +19,9 @@ var compile = function (expr) {
         (function(expr) {
             if (expr.tag === 'note' || expr.tag === 'rest') {
                 expr.start = time || ref;
+                if (expr.pitch) {
+                    expr.pitch = convertPitch(expr.pitch);
+                }
                 result.push(expr);
                 
                 time += expr.dur;
