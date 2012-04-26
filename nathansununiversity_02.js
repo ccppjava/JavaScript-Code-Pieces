@@ -10,7 +10,7 @@ var compile = function (expr) {
         // your code here
         (function(expr) {
             if (expr.tag === 'note') {
-                expr.start = ref;
+                expr.start = time || ref;
                 result.push(expr);
                 
                 time += expr.dur;
