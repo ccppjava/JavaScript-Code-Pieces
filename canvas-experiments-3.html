@@ -28,29 +28,9 @@ http://devhammer.net/blog/exploring-html5-canvas-part-3---paths-and-text
             function renderContent() {
                 context.fillRect(0, 0, canvas.width, canvas.height);
                 
-                context.strokeStyle = "#FF0000"
-                context.lineWidth = 7;
-                context.lineCap = "round";
-                context.lineJoin = "round";
-
-                // draw rectangle using line
                 context.moveTo(200, 200);
-                //context.lineTo(300, 300);
-                //
-                // The only difference between 
-                // bezierCurveTo and quadraticCurveTo is that 
-                // the latter only has one control point, rather than two.
-                context.bezierCurveTo(200,200, 300,200, 300,300);
-                context.lineTo(300, 200);                
-                context.lineTo(200, 200);
+                context.lineTo(300, 300);
                 context.stroke();
-                context.fillStyle = "#00FF00";
-                context.fill();
-
-                context.lineWidth = 2;
-                context.strokeStyle = "#00F0FF";
-                context.font = "14px sans-serif";
-                context.strokeText("Hello, Canvas!", 200, 300);
             }
 
             renderContent();
