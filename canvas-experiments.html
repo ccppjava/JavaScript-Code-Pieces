@@ -1,0 +1,44 @@
+<!-- 
+http://devhammer.net/blog/exploring-html5-canvas-part-1---introduction
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Canvas Experimental Page</title>
+    <style type="text/css">
+        html { background: transparent url('webx-bkg.png') repeat-x; margin: 0; padding: 0; }
+        body { font-family: "Segoe UI", Tahoma, Helvetica, Arial, Sans-Serif; margin: 0; padding: 0; line-height: 150%; background: transparent url('webx-content-bkg.jpg') no-repeat center top; border: 0; outline: 0; font-size: 100%; vertical-align: baseline; color: #434343; }
+        
+        .container { width: 800px; margin: 0 auto 0 auto; padding: 40px 0 0 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <canvas id="myCanvas" width="500" height="500">
+            <p>Canvas is not supported by your browser.</p>
+        </canvas>
+    </div>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var canvas = $('#myCanvas').get(0);
+            var context = canvas.getContext("2d");
+
+            function renderContent() {
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                var text = "Hello, Canvas!";
+                context.fillStyle = "#FF0000";
+                context.strokeStyle = "#0000FF";
+                context.font = "36px sans-serif";
+                context.strokeText(text, 10, 50);
+                //context.fillText(text, 10, 50);
+            }
+
+            renderContent();
+        });
+    </script>
+</body>
+</html>
+
