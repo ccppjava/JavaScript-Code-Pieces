@@ -138,3 +138,77 @@ space =
 spaceatom = 
     space natom:atom
         { return natom; }
+
+
+// Page 7
+// a very ... chicky implementation, guess it is not the original purpose
+// of author, will re-visit when have time
+// hint of page:
+// I added a new rule comma at the top then modified the start and primary rules. 
+start =
+    additive
+    
+symbol = 
+    "+"
+  / ","
+
+additive =
+    left:multiplicative symbol:symbol right:additive
+        { return {tag: symbol, left:left, right:right}; }
+  / multiplicative
+
+multiplicative =
+    left:primary "*" right:multiplicative
+        { return {tag: "*", left:left, right:right}; }
+  / primary
+
+primary =
+    integer
+  / "(" additive:additive ")"
+      { return additive; }
+
+integer =
+    digits:[0-9]+
+        { return parseInt(digits.join(""), 10); }
+
+// test for above on the page
+var parse = wrapExceptions(PEG.buildParser(answer).parse);
+
+assert_eq(parse("1+2"),
+    {tag:"+", left:1, right:2},
+    "parse 1+2");
+assert_eq(parse("1+2*3"),
+    {tag:"+", left:1, right:{tag:"*", left:2, right:3}},
+    "parse 1+2*3");
+assert_eq(parse("1,2"),
+    {tag:",", left:1, right:2},
+    "parse 1,2");
+assert_eq(parse("1,2+3"),
+    {tag:",", left:1, right:{tag:"+", left:2, right:3}},
+    "parse 1,2+3");
+assert_eq(parse("1*2,3"),
+    {tag:",", left:{tag:"*", left:1, right:2}, right:3},
+    "parse 1*2,3");
+
+
+
+// Page 8, howto write simple test case in node.js
+var PEG = require('pegjs');
+var assert = require('assert');
+var fs = require('fs'); // for loading files
+
+// Read file contents
+var data = fs.readFileSync('my.peg', 'utf-8');
+// Show the PEG grammar file
+console.log(data);
+// Create my parser
+var parse = PEG.buildParser(data).parse;
+// Do a test
+assert.deepEqual( parse("(a b c)"), ["a", "b", "c"] );
+
+// One trick that might be helpful is that the PEG parsers 
+// you generate can be started from rules other than start.
+assert.deepEqual(parse("a4[100]", "note"),
+    {tag:"note", pitch:"a4", dur:100});
+
+// TODO: Homework
